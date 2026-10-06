@@ -1,0 +1,58 @@
+{
+  "name": "@rn-schema-ui/runtime",
+  "version": "0.1.0",
+  "description": "Runtime mince rn-schema-ui \u2014 useForm, useField, \u00e9tats d'\u00e9cran",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "react-native": "./dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.cjs --selectProjects runtime",
+    "size": "npm run build && node ./scripts/size.mjs && size-limit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.73",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@size-limit/file": "^11.2.0",
+    "@types/react": "^18.3.12",
+    "size-limit": "^11.2.0",
+    "typescript": "^5.6.3",
+    "zod": "^3.23.8"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "size-limit": [
+    {
+      "path": "dist/*.js",
+      "limit": "8 KB",
+      "gzip": true
+    }
+  ],
+  "author": "Mo\u00efse Koudanko",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Monde123/Rn_motion.git",
+    "directory": "packages/runtime"
+  },
+  "bugs": {
+    "url": "https://github.com/Monde123/Rn_motion/issues"
+  },
+  "homepage": "https://github.com/Monde123/Rn_motion#readme"
+}

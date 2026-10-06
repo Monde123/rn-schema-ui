@@ -1,0 +1,16 @@
+{
+  "name": "@rn-schema-ui/templates",
+  "version": "0.1.0",
+  "description": "Templates d'écrans / champs / tests pour rn-schema-ui",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "license": "MIT"
+}

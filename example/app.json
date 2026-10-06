@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "rn-schema-ui-example",
+    "slug": "rn-schema-ui-example",
+    "version": "0.1.0",
+    "scheme": "rnschemaui",
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}

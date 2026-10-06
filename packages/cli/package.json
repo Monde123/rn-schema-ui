@@ -1,0 +1,48 @@
+{
+  "name": "rn-schema-ui",
+  "version": "0.1.0",
+  "description": "CLI \u2014 g\u00e9n\u00e8re \u00e9crans, formulaires valid\u00e9s, \u00e9tats et tests RN depuis Zod / JSON Schema",
+  "bin": {
+    "rn-schema-ui": "./bin/rn-schema-ui.js"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "bin",
+    "dist",
+    "vendor",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node ./scripts/bundle-templates.mjs && tsc -p tsconfig.json",
+    "dev": "node ./bin/rn-schema-ui.js",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "jiti": "^2.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "react-native",
+    "zod",
+    "codegen",
+    "forms",
+    "expo"
+  ],
+  "license": "MIT",
+  "author": "Mo\u00efse Koudanko",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Monde123/Rn_motion.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/Monde123/Rn_motion/issues"
+  },
+  "homepage": "https://github.com/Monde123/Rn_motion#readme"
+}
