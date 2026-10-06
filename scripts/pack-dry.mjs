@@ -5,11 +5,15 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function pack(pkgDir) {
-  const out = execSync('npm pack --dry-run --json', {
+  const out = execSync('npm pack --dry-run --json --ignore-scripts', {
     cwd: path.join(root, pkgDir),
     encoding: 'utf8',
   });
-  const data = JSON.parse(out);
+  // npm may print warnings before JSON array
+  const start = out.indexOf('[');
+  const end = out.lastIndexOf(']');
+  if (start < 0 || end < 0) throw new Error(`No JSON from npm pack in ${pkgDir}:\n${out.slice(0, 500)}`);
+  const data = JSON.parse(out.slice(start, end + 1));
   const info = Array.isArray(data) ? data[0] : data;
   return {
     name: info.name,
@@ -21,7 +25,6 @@ function pack(pkgDir) {
   };
 }
 
-// ensure build + vendor
 execSync('npm run build', { cwd: root, stdio: 'inherit' });
 const cli = pack('packages/cli');
 const runtime = pack('packages/runtime');
