@@ -22,7 +22,12 @@ function pickZodExport(mod: Record<string, unknown>): { schema: ZodTypeAny; expo
       return { schema: val as ZodTypeAny, exportName: name };
     }
   }
-  throw new Error('Aucun export ZodObject trouvé dans le module schéma');
+  const exports = Object.keys(mod).filter((k) => k !== '__esModule');
+  throw new Error(
+    `No ZodObject export found in the schema module.\n` +
+      `Exports seen: ${exports.length ? exports.join(', ') : '(none)'}\n` +
+      `Tip: export a z.object(...), e.g. export const userSchema = z.object({ ... })`,
+  );
 }
 
 export async function loadSchemaFile(
@@ -64,7 +69,7 @@ export async function loadSchemaFile(
   const { schema, exportName } = pickZodExport(mod);
   // Validate it's parseable
   if (typeof (schema as { safeParse?: unknown }).safeParse !== 'function') {
-    throw new Error('Export trouvé mais ce n’est pas un schéma Zod');
+    throw new Error('Export found but it is not a Zod schema');
   }
   // Touch z to keep dependency
   void z;
@@ -78,8 +83,8 @@ export async function loadSchemaFile(
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     throw new Error(
-      `Le schéma « ${exportName} » n'est pas un ZodObject utilisable.\n${msg}\n` +
-        `rn-schema-ui attend export const x = z.object({ ... }) (éventuellement .optional/.refine enveloppant un object).`,
+      `Schema "${exportName}" is not a usable ZodObject.\n${msg}\n` +
+        `rn-schema-ui expects export const x = z.object({ ... }) (optionally wrapped with .optional/.refine).`,
     );
   }
 }
@@ -122,7 +127,7 @@ export function renderJsonSchemaZodMirror(ir: SchemaIR, jsonPath: string): strin
     // nested keys not expected from our json flatten
     return `  ${JSON.stringify(f.key)}: ${zexpr},`;
   });
-  return `/* Généré depuis ${jsonPath} */
+  return `/* Generated from ${jsonPath} */
 import { z } from 'zod';
 
 export const ${ir.exportName} = z.object({

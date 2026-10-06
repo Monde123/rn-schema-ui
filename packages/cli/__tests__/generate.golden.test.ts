@@ -51,10 +51,10 @@ describe('generate golden', () => {
     expect(normalize(screen, zodOut)).toMatchSnapshot('register-screen-zod');
     expect(normalize(test, zodOut)).toMatchSnapshot('register-test-zod');
 
-    expect(screen).toContain('accessibilityLabel={"E-mail"}');
+    expect(screen).toContain('accessibilityLabel={"Email"}');
     expect(screen).toContain('accessibilityRole="switch"');
     expect(screen).toContain('accessibilityRole="alert"');
-    expect(screen).toContain('accessibilityLabel="Envoyer"');
+    expect(screen).toContain('accessibilityLabel="Submit"');
     expect(screen).toContain('secureTextEntry={true}');
     expect(screen).toContain('keyboardType="email-address"');
     expect(screen).toContain('keyboardType="numeric"');
@@ -77,7 +77,7 @@ describe('generate golden', () => {
     expect(normalize(screen, jsonOut)).toMatchSnapshot('register-screen-json');
     expect(normalize(test, jsonOut)).toMatchSnapshot('register-test-json');
     expect(normalize(schema, jsonOut)).toMatchSnapshot('register-schema-mirror');
-    expect(screen).toContain('accessibilityLabel={"E-mail"}');
+    expect(screen).toContain('accessibilityLabel={"Email"}');
   });
 
   it('erreur claire si export non ZodObject', async () => {

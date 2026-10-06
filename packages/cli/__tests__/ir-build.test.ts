@@ -8,7 +8,7 @@ const { zodObjectToIR, jsonSchemaToIR } = jiti(
 ) as typeof import('../src/ir-build');
 
 describe('zodObjectToIR', () => {
-  it('mappe les types courants', () => {
+  it('maps common field kinds', () => {
     const schema = z.object({
       email: z.string().email(),
       password: z.string().min(8),
@@ -37,7 +37,7 @@ describe('zodObjectToIR', () => {
 });
 
 describe('jsonSchemaToIR', () => {
-  it('parse un JSON Schema simple', () => {
+  it('parses a simple JSON Schema', () => {
     const ir = jsonSchemaToIR(
       {
         type: 'object',
@@ -55,7 +55,7 @@ describe('jsonSchemaToIR', () => {
 });
 
 describe('zodObjectToIR edges', () => {
-  it('skip array d objets avec warning', () => {
+  it('skips object arrays with a warning', () => {
     const schema = z.object({
       items: z.array(z.object({ id: z.string() })),
     });
@@ -65,10 +65,10 @@ describe('zodObjectToIR edges', () => {
       schemaImportPath: './x',
     });
     expect(ir.fields.find((f) => f.key === 'items')).toBeUndefined();
-    expect(ir.warnings.some((w) => /Array non primitive/i.test(w))).toBe(true);
+    expect(ir.warnings.some((w) => /Non-primitive array/i.test(w))).toBe(true);
   });
 
-  it('password via nom de champ', () => {
+  it('detects password by field name', () => {
     const schema = z.object({
       motDePasse: z.string().min(8),
     });

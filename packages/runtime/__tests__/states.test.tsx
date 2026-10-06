@@ -1,12 +1,6 @@
 import React from 'react';
 import renderer, { act } from 'react-test-renderer';
-import {
-  EmptyState,
-  ErrorState,
-  LoadingState,
-  ScreenStates,
-  SuccessState,
-} from '../src/states';
+import { EmptyState, ErrorState, LoadingState, ScreenStates, SuccessState } from '../src/states';
 
 describe('states', () => {
   it('rend Loading Error Empty Success', () => {
@@ -23,7 +17,7 @@ describe('states', () => {
         <></>
       </ScreenStates>,
     );
-    expect(JSON.stringify(loading.toJSON())).toContain('Chargement');
+    expect(JSON.stringify(loading.toJSON())).toContain('Loading');
     const idle = renderer.create(
       <ScreenStates status="idle">
         <React.Fragment>OK</React.Fragment>
@@ -51,7 +45,7 @@ describe('states', () => {
         <></>
       </ScreenStates>,
     );
-    expect(JSON.stringify(t.toJSON())).toContain('Aucune donnée');
+    expect(JSON.stringify(t.toJSON())).toContain('No data');
   });
 });
 

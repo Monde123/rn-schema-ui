@@ -1,33 +1,28 @@
-# Dialecte schéma
+# Schema dialect
 
-## Zod (prioritaire)
+## Zod (preferred)
 
 ```ts
 import { z } from 'zod';
 
 export const userSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8), // détecté password par le nom
+  password: z.string().min(8),
   age: z.coerce.number().int().min(18),
   acceptTerms: z.boolean(),
   country: z.enum(['BJ', 'FR']),
   bio: z.string().optional(),
-  profile: z.object({ city: z.string() }), // flatten → profile.city
+  profile: z.object({ city: z.string() }), // → profile.city
   tags: z.array(z.string()),
 });
 ```
 
-Chargement : **jiti** sur le fichier `.ts`. Export préféré : nom finissant par `Schema`.
+Loaded with **jiti**. Prefer export names ending in `Schema`.
 
-### Non supporté (warning + skip)
+### Unsupported (warning + skip)
 
-- `z.union` / `z.discriminatedUnion`
-- `z.array(z.object(...))`
-- nesting d’objets &gt; 1 niveau
-- `z.record`, `z.tuple`, fonctions, promises
+`z.union` / `z.discriminatedUnion`, `z.array(z.object(...))`, nesting &gt; 1 level, `z.record`, `z.tuple`, functions, promises.
 
 ## JSON Schema
 
-Draft pragmatique : `type`, `properties`, `required`, `enum`, `format: email|date|date-time`, arrays de primitives.
-
-Un miroir Zod `schema.ts` est généré à côté de l’écran.
+Pragmatic: `type`, `properties`, `required`, `enum`, `format: email|date|date-time`, arrays of primitives. A Zod mirror `schema.ts` is emitted next to the screen.

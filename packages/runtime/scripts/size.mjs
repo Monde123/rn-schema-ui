@@ -26,7 +26,13 @@ for (const f of files) {
 const concat = Buffer.concat(parts);
 const gz = gzipSync(concat, { level: 9 });
 const kb = (gz.length / 1024).toFixed(2);
-console.log(JSON.stringify({ files: files.length, rawBytes: raw, gzipBytes: gz.length, gzipKB: Number(kb) }, null, 2));
+console.log(
+  JSON.stringify(
+    { files: files.length, rawBytes: raw, gzipBytes: gz.length, gzipKB: Number(kb) },
+    null,
+    2,
+  ),
+);
 if (gz.length > 8 * 1024) {
   console.error(`FAIL: gzip ${gz.length} > 8192`);
   process.exit(1);

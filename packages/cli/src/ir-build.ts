@@ -67,9 +67,7 @@ function mapZodField(
   const tn = typeName(inner);
 
   if (tn === ZodFirstPartyTypeKind.ZodObject) {
-    warnings.push(
-      `Objet imbriqué profond ignoré pour "${key}" (flatten 1 niveau seulement côté parent).`,
-    );
+    warnings.push(`Deep nested object ignored for "${key}" (only one flatten level from parent).`);
     return null;
   }
 
@@ -109,7 +107,7 @@ function mapZodField(
       else if (itn === ZodFirstPartyTypeKind.ZodNumber) arrayItemKind = 'number';
       else if (itn === ZodFirstPartyTypeKind.ZodBoolean) arrayItemKind = 'boolean';
       else {
-        warnings.push(`Array non primitive ignorée: ${key}`);
+        warnings.push(`Non-primitive array skipped: ${key}`);
         return null;
       }
       kind = 'array';
@@ -122,7 +120,7 @@ function mapZodField(
         enumValues = [v];
         break;
       }
-      warnings.push(`Literal non supporté: ${key}`);
+      warnings.push(`Unsupported literal: ${key}`);
       return null;
     }
     case ZodFirstPartyTypeKind.ZodUnion:
@@ -137,7 +135,7 @@ function mapZodField(
     case ZodFirstPartyTypeKind.ZodUnknown:
     case ZodFirstPartyTypeKind.ZodNever:
     case ZodFirstPartyTypeKind.ZodVoid:
-      warnings.push(`Type non supporté (${tn}) pour "${key}" — ignoré.`);
+      warnings.push(`Unsupported type (${tn}) for "${key}" — skipped.`);
       return null;
     default:
       // coerce wrappers sometimes appear as ZodNumber after unwrap effects
@@ -145,7 +143,7 @@ function mapZodField(
         kind = 'number';
         break;
       }
-      warnings.push(`Type inconnu (${tn || '??'}) pour "${key}" — ignoré.`);
+      warnings.push(`Unknown type (${tn || '??'}) for "${key}" — skipped.`);
       return null;
   }
 
@@ -169,7 +167,7 @@ export function zodObjectToIR(
   const warnings: string[] = [];
   const { inner } = unwrap(schema);
   if (typeName(inner) !== ZodFirstPartyTypeKind.ZodObject) {
-    throw new Error('Type racine invalide: attendu ZodObject (z.object), reçu autre type Zod.');
+    throw new Error('Invalid root type: expected ZodObject (z.object), got another Zod type.');
   }
   const shape: Record<string, ZodTypeAny> =
     typeof (inner as unknown as { shape?: unknown }).shape === 'object'
@@ -189,7 +187,7 @@ export function zodObjectToIR(
         const flatKey = `${key}.${childKey}`;
         const { inner: childInner } = unwrap(childSchema);
         if (typeName(childInner) === ZodFirstPartyTypeKind.ZodObject) {
-          warnings.push(`Nesting >1 niveau ignoré: ${flatKey}`);
+          warnings.push(`Nesting >1 level skipped: ${flatKey}`);
           continue;
         }
         const ir = mapZodField(flatKey, childSchema, warnings, section);
@@ -244,14 +242,14 @@ export function jsonSchemaToIR(
         kind = 'array';
         arrayItemKind = it;
       } else {
-        warnings.push(`JSON Schema array non primitive ignorée: ${key}`);
+        warnings.push(`JSON Schema non-primitive array skipped: ${key}`);
         continue;
       }
     } else if (typ === 'object') {
-      warnings.push(`JSON Schema object imbriqué non flatten auto: ${key} — ignoré`);
+      warnings.push(`JSON Schema nested object not auto-flattened: ${key} — skipped`);
       continue;
     } else {
-      warnings.push(`JSON Schema type non supporté pour ${key}`);
+      warnings.push(`Unsupported JSON Schema type for ${key}`);
       continue;
     }
 

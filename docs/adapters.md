@@ -1,18 +1,19 @@
-# Adapters UI
+# UI adapters
 
-| Adapter | Statut             | Description                                                                           |
-| ------- | ------------------ | ------------------------------------------------------------------------------------- |
-| `plain` | **complet (v0.1)** | `View` / `Text` / `TextInput` / `Switch` / `Pressable`                                |
-| `paper` | **partiel**        | Même structure ; commentaires Paper — pas de dépendance `react-native-paper` injectée |
+| Adapter | Status              | Description                                                             |
+| ------- | ------------------- | ----------------------------------------------------------------------- |
+| `plain` | **complete (v0.1)** | `View` / `Text` / `TextInput` / `Switch` / `Pressable`                  |
+| `paper` | **partial**         | Same structure; Paper comments only — no `react-native-paper` injection |
 
 ```bash
 node packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out ./app/register --adapter plain
-node packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out ./app/register --adapter paper
 ```
 
-## Navigation
+| `--router` | Effect                              |
+| ---------- | ----------------------------------- |
+| `expo`     | Expo Router file comment            |
+| `rn`       | React Navigation stack stub comment |
 
-| `--router` | Effet                                         |
-| ---------- | --------------------------------------------- |
-| `expo`     | Commentaire Expo Router (fichier sous `app/`) |
-| `rn`       | Stub commentaire Stack.Navigator              |
+## Multiplatform note
+
+`plain` adapter output is intended for **iOS, Android, and web**. Prefer RN core components. If you branch on platform, use `Platform.select` / `Platform.OS` and keep a web-safe path.

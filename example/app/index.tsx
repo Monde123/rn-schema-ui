@@ -7,7 +7,7 @@ export default function Home(): React.ReactElement {
     <View style={styles.container}>
       <Text style={styles.title}>rn-schema-ui example</Text>
       <Link href="/(auth)/register" style={styles.link}>
-        Ouvrir le formulaire Register
+        Open the Register form
       </Link>
     </View>
   );

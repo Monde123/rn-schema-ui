@@ -4,8 +4,8 @@ import renderer, { act } from 'react-test-renderer';
 import { FormProvider, useForm } from '../src/form';
 
 const schema = z.object({
-  email: z.string().email('E-mail invalide'),
-  age: z.number().min(18, 'Âge min 18'),
+  email: z.string().email('Invalid email'),
+  age: z.number().min(18, 'Min age 18'),
 });
 
 type Api = ReturnType<typeof useForm<(typeof schema)['_output']>>;

@@ -8,7 +8,7 @@ type BaseProps = {
 };
 
 export function LoadingState({
-  message = 'Chargement…',
+  message = 'Loading…',
   testID = 'state-loading',
 }: BaseProps): React.ReactElement {
   return (
@@ -20,7 +20,7 @@ export function LoadingState({
 }
 
 export function ErrorState({
-  message = 'Une erreur est survenue.',
+  message = 'Something went wrong.',
   onRetry,
   testID = 'state-error',
 }: BaseProps & { onRetry?: () => void }): React.ReactElement {
@@ -33,11 +33,11 @@ export function ErrorState({
         <Pressable
           onPress={onRetry}
           accessibilityRole="button"
-          accessibilityLabel="Réessayer"
+          accessibilityLabel="Retry"
           style={styles.button}
           testID={`${testID}-retry`}
         >
-          <Text style={styles.buttonText}>Réessayer</Text>
+          <Text style={styles.buttonText}>Retry</Text>
         </Pressable>
       ) : null}
     </View>
@@ -45,7 +45,7 @@ export function ErrorState({
 }
 
 export function EmptyState({
-  message = 'Aucune donnée.',
+  message = 'No data.',
   testID = 'state-empty',
 }: BaseProps): React.ReactElement {
   return (
@@ -56,7 +56,7 @@ export function EmptyState({
 }
 
 export function SuccessState({
-  message = 'Succès.',
+  message = 'Success.',
   testID = 'state-success',
 }: BaseProps): React.ReactElement {
   return (

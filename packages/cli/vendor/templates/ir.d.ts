@@ -20,5 +20,5 @@ export type GenerateOptions = {
     adapter: 'plain' | 'paper';
     router: 'expo' | 'rn';
     componentName: string;
-    locale: 'fr';
+    locale: 'en';
 };

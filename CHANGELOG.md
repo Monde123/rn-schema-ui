@@ -2,16 +2,20 @@
 
 ## 0.1.0 — 2026-10-06
 
-### Ajouté
+### Added
 
-- CLI `rn-schema-ui` : `init`, `generate` (Zod via jiti / JSON Schema), `--adapter`, `--router`, `--dry-run`, `--watch`
-- Runtime `@rn-schema-ui/runtime` : `useForm`, `useField`, `FormProvider`, états d’écran, `unflatten`, helpers a11y
-- Templates TypeScript : écrans plain (Paper partiel), tests RNTL
-- Example Expo Router avec écran Register généré
-- Qualité : Jest (golden + runtime), ESLint, Prettier, size-limit, bench cold/warm, CI
+- CLI `rn-schema-ui`: `init`, `generate` (Zod via jiti / JSON Schema), `--adapter`, `--router`, `--dry-run`, `--watch`
+- Runtime `@rn-schema-ui/runtime`: `useForm`, `useField`, `FormProvider`, screen states, a11y helpers, `unflatten`
+- TypeScript templates: plain screens (Paper partial), RNTL tests
+- Expo Router example with generated Register screen
+- Quality: Jest (golden + runtime), ESLint, Prettier, size-limit, cold/warm bench, CI
 
-### Limites connues
+### Docs
 
-- Unions / discriminated unions, arrays d’objets, nesting &gt; 1 niveau non supportés
-- Adapter Paper partiel
-- Pas encore publié sur npm (pack dry-run uniquement)
+- English product documentation; repo https://github.com/Monde123/rn-schema-ui
+
+### Known limits
+
+- Unions / discriminated unions, arrays of objects, nesting &gt; 1 level
+- Paper adapter partial
+- Not published to npm yet

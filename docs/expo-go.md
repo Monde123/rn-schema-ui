@@ -1,46 +1,45 @@
-# Protocole manuel — Expo Go (appareil réel)
+# Manual protocol — Expo Go (real device)
 
-Prérequis : Node 18+, téléphone avec **Expo Go**, même réseau Wi‑Fi que la machine.
+Requirements: Node 18+, phone with **Expo Go**, same Wi‑Fi as the machine.
 
-## 1. Préparer
+## 1. Prepare
 
 ```bash
-cd /workspace/rn-formkit   # ou clone local
-npm install
-npm run build
+cd rn-formkit
+npm install && npm run build
 cd example
 ```
 
-## 2. Lancer le serveur
+## 2. Start
 
 ```bash
 npx expo start
+# if needed: npx expo start --tunnel
 ```
 
-- Scanner le QR code avec Expo Go (Android) ou l’appareil photo (iOS).
-- Si tunnel nécessaire : `npx expo start --tunnel`.
+Scan the QR code with Expo Go (Android) or Camera (iOS).
 
-## 3. Vérifier le formulaire
+## 3. Verify the form
 
-1. Ouvrir le lien « Ouvrir le formulaire Register ».
-2. Submit vide → messages d’erreur (role alert).
-3. Remplir les 8 champs (e-mail valide, password ≥ 8, âge ≥ 18, pays, switch conditions).
-4. Submit → alerte « Succès ».
+1. Open “Open the Register form”.
+2. Empty submit → validation errors (`alert` role).
+3. Fill all fields (valid email, password ≥ 8, age ≥ 18, country, terms switch).
+4. Submit → success alert.
 
-## 4. Régénérer
+## 4. Regenerate
 
 ```bash
 npm run generate
-# ou watch :
-node ../packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out './app/(auth)/register' --name Register --watch
+node ../packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts \
+  --out './app/(auth)/register' --name Register --watch
 ```
 
-Recharger l’app dans Expo Go (secouer → Reload).
+Reload in Expo Go.
 
-## Dépannage
+## Troubleshooting
 
-| Symptôme                       | Action                                                                    |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| Module `@rn-schema-ui/runtime` | `npm run build` à la racine ; vérifier `example/metro.config.js` → `dist` |
-| QR inaccessible                | `--tunnel` ou même VLAN                                                   |
-| Cache Metro                    | `npx expo start -c`                                                       |
+| Symptom                                | Action                                             |
+| -------------------------------------- | -------------------------------------------------- |
+| Cannot resolve `@rn-schema-ui/runtime` | `npm run build` at repo root; check Metro → `dist` |
+| QR unreachable                         | `--tunnel` or same VLAN                            |
+| Stale Metro                            | `npx expo start -c`                                |

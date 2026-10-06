@@ -79,7 +79,7 @@ export function useForm<T extends FormValues>(options: UseFormOptions<T>): UseFo
       return true;
     } catch {
       setStatus('error');
-      setErrors({ _form: 'Une erreur est survenue.' });
+      setErrors({ _form: 'Something went wrong.' });
       setIsSubmitting(false);
       return false;
     }
@@ -120,7 +120,7 @@ export function FormProvider<T extends FormValues>({
 export function useFormContext(): FormContextValue {
   const ctx = useContext(FormContext);
   if (!ctx) {
-    throw new Error('useFormContext doit être utilisé dans un FormProvider');
+    throw new Error('useFormContext must be used within a FormProvider');
   }
   return ctx;
 }

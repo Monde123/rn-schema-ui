@@ -2,20 +2,20 @@ import { generate } from './generate.js';
 import type { GenerateCliOptions } from './generate.js';
 
 function help(): void {
-  console.log(`rn-schema-ui — codegen formulaires React Native
+  console.log(`rn-schema-ui — React Native form codegen from Zod / JSON Schema
 
 Usage:
   rn-schema-ui init
   rn-schema-ui generate <schema> --out <dir> [options]
   rn-schema-ui --help
 
-Options generate:
-  --out <dir>              Répertoire de sortie (requis)
-  --adapter plain|paper    UI adapter (défaut: plain)
-  --router expo|rn         Stubs navigation (défaut: expo)
-  --name <Name>            Nom composant PascalCase
-  --dry-run                Affiche sans écrire
-  --watch                  Régénère à chaque changement du schéma
+generate options:
+  --out <dir>              Output directory (required)
+  --adapter plain|paper    UI adapter (default: plain)
+  --router expo|rn         Navigation stubs (default: expo)
+  --name <Name>            Component PascalCase name
+  --dry-run                Print paths without writing
+  --watch                  Regenerate when the schema file changes
 `);
 }
 
@@ -35,7 +35,7 @@ async function runGenerate(opts: GenerateCliOptions, schemaPath: string): Promis
     console.log(`✔ Parsed ${result.ir.fields.length} fields from ${schemaPath} (${result.ms}ms)`);
     for (const w of result.ir.warnings) console.warn(`⚠ ${w}`);
     if (opts.dryRun) {
-      console.log('Dry-run — fichiers non écrits:');
+      console.log('Dry-run — files not written:');
       for (const f of result.files) console.log(`  - ${f}`);
     } else {
       for (const f of result.files) console.log(`✔ Wrote ${f}`);
@@ -44,7 +44,7 @@ async function runGenerate(opts: GenerateCliOptions, schemaPath: string): Promis
     return 0;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error(`✖ generate a échoué:\n${msg}`);
+    console.error(`✖ generate failed:\n${msg}`);
     return 1;
   }
 }
@@ -67,7 +67,7 @@ export async function run(argv = process.argv.slice(2)): Promise<number> {
           {
             adapter: 'plain',
             router: 'expo',
-            locale: 'fr',
+            locale: 'en',
             outDir: './app',
             schema: './schemas/example.ts',
           },
@@ -75,9 +75,9 @@ export async function run(argv = process.argv.slice(2)): Promise<number> {
           2,
         ) + '\n',
       );
-      console.log('✔ Créé rn-schema-ui.config.json');
+      console.log('✔ Created rn-schema-ui.config.json');
     } else {
-      console.log('• rn-schema-ui.config.json existe déjà');
+      console.log('• rn-schema-ui.config.json already exists');
     }
 
     if (!existsSync('schemas')) mkdirSync('schemas', { recursive: true });
@@ -87,26 +87,26 @@ export async function run(argv = process.argv.slice(2)): Promise<number> {
         exampleSchema,
         `import { z } from 'zod';
 
-/** Schéma d'exemple — remplacez par le vôtre. */
+/** Example schema — replace with your own. */
 export const exampleSchema = z.object({
-  email: z.string().email('E-mail invalide'),
-  password: z.string().min(8, '8 caractères minimum'),
+  email: z.string().email('Invalid email'),
+  password: z.string().min(8, 'At least 8 characters'),
   acceptTerms: z.boolean(),
 });
 
 export type Example = z.infer<typeof exampleSchema>;
 `,
       );
-      console.log('✔ Créé schemas/example.ts');
+      console.log('✔ Created schemas/example.ts');
     } else {
-      console.log('• schemas/example.ts existe déjà');
+      console.log('• schemas/example.ts already exists');
     }
 
     console.log(`
-Prochaine étape:
+Next step:
   node packages/cli/bin/rn-schema-ui.js generate ./schemas/example.ts --out ./app/example --name Example
 `);
-    console.log('✔ init terminé');
+    console.log('✔ init complete');
     return 0;
   }
 
@@ -120,11 +120,11 @@ Prochaine étape:
     const adapter = (getFlag(argv, '--adapter') ?? 'plain') as 'plain' | 'paper';
     const router = (getFlag(argv, '--router') ?? 'expo') as 'expo' | 'rn';
     if (!['plain', 'paper'].includes(adapter)) {
-      console.error('--adapter doit être plain|paper');
+      console.error('--adapter must be plain|paper');
       return 1;
     }
     if (!['expo', 'rn'].includes(router)) {
-      console.error('--router doit être expo|rn');
+      console.error('--router must be expo|rn');
       return 1;
     }
 
@@ -162,7 +162,6 @@ Prochaine étape:
         void tick();
       });
       await new Promise<void>(() => {
-        // keep process alive until SIGINT
         process.on('SIGINT', () => {
           watcher.close();
           process.exit(0);
@@ -174,7 +173,7 @@ Prochaine étape:
     return runGenerate(opts, schemaPath);
   }
 
-  console.error(`Commande inconnue: ${cmd}`);
+  console.error(`Unknown command: ${cmd}`);
   help();
   return 1;
 }

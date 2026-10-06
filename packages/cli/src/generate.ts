@@ -38,14 +38,14 @@ export async function generate(opts: GenerateCliOptions): Promise<{
 
   const ir = await loadSchemaFile(opts.schemaPath, componentName, outDir);
   if (opts.adapter === 'paper') {
-    ir.warnings.push('Adapter paper partiel — TextInput style Paper non lié à react-native-paper.');
+    ir.warnings.push('Paper adapter is partial — not wired to react-native-paper.');
   }
 
   const genOpts: GenerateOptions = {
     adapter: opts.adapter,
     router: opts.router,
     componentName,
-    locale: 'fr',
+    locale: 'en',
   };
 
   const files: { rel: string; content: string }[] = [];

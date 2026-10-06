@@ -1,8 +1,9 @@
-# Documentation rn-schema-ui
+# rn-schema-ui documentation
 
 - [architecture.md](./architecture.md)
 - [schema-dialect.md](./schema-dialect.md)
 - [adapters.md](./adapters.md)
-- [expo-go.md](./expo-go.md) — protocole appareil réel
-- [QUALITE.md](../QUALITE.md) — critères Phase 1 vs mesures
-- Racine : ANALYSE, ARCHITECTURE, API, DESIGN, DECISIONS
+- [testing-matrix.md](./testing-matrix.md)
+- [expo-go.md](./expo-go.md) — real-device protocol
+- [QUALITY.md](../QUALITY.md)
+- Root: ANALYSIS, ARCHITECTURE, API, DESIGN, DECISIONS

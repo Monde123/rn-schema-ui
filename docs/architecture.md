@@ -1,8 +1,6 @@
-# Architecture
+# Architecture (short)
 
-Voir aussi [ARCHITECTURE.md](../ARCHITECTURE.md) à la racine.
-
-## Flux
+See also [ARCHITECTURE.md](../ARCHITECTURE.md).
 
 ```
 Zod (.ts via jiti) | JSON Schema (.json)
@@ -11,17 +9,13 @@ Zod (.ts via jiti) | JSON Schema (.json)
         ↓
   templates (renderScreen / renderTest)
         ↓
-  index.tsx + __tests__/*.test.tsx (+ schema.ts si JSON)
+  index.tsx + __tests__/*.test.tsx
 ```
 
-## Packages
+| Package                   | Role                         |
+| ------------------------- | ---------------------------- |
+| `rn-schema-ui`            | CLI (+ `vendor/templates`)   |
+| `@rn-schema-ui/runtime`   | Thin form hook + states      |
+| `@rn-schema-ui/templates` | IR → code (bundled into CLI) |
 
-| Package                   | Rôle                                |
-| ------------------------- | ----------------------------------- |
-| `rn-schema-ui`            | CLI (+ templates vendor/bundled)    |
-| `@rn-schema-ui/runtime`   | Hook form mince + états             |
-| `@rn-schema-ui/templates` | Rendu IR → code (interne / bundled) |
-
-## Runtime
-
-Aucun React Hook Form obligatoire. `safeParse` au submit ; clés `a.b` unflattenées avant validation.
+Runtime: no mandatory React Hook Form. `safeParse` on submit; dotted keys unflattened first.

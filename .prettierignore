@@ -1,0 +1,9 @@
+node_modules/
+dist/
+**/dist/
+coverage/
+example/dist/
+packages/cli/vendor/
+*.tgz
+package-lock.json
+docs/assets/

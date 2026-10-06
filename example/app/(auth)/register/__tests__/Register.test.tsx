@@ -5,7 +5,7 @@ import { RegisterScreen } from '../index';
 describe('RegisterScreen', () => {
   it('rend les champs', () => {
     const { getByLabelText, getByTestId } = render(<RegisterScreen />);
-  expect(getByLabelText("Prénom")).toBeTruthy();
+    expect(getByLabelText('First name')).toBeTruthy();
     expect(getByTestId('submit')).toBeTruthy();
   });
 
@@ -19,14 +19,14 @@ describe('RegisterScreen', () => {
   it('soumet avec succès quand valide', async () => {
     const onSuccess = jest.fn();
     const { getByTestId } = render(<RegisterScreen onSuccess={onSuccess} />);
-  fireEvent.changeText(getByTestId('field-firstName'), 'valeur');
-  fireEvent.changeText(getByTestId('field-lastName'), 'valeur');
-  fireEvent.changeText(getByTestId('field-email'), 'user@example.com');
-  fireEvent.changeText(getByTestId('field-password'), 'password1');
-  fireEvent.changeText(getByTestId('field-age'), '21');
-  fireEvent(getByTestId('field-acceptTerms'), 'valueChange', true);
-  fireEvent.press(getByTestId('field-country-BJ'));
-  fireEvent.changeText(getByTestId('field-bio'), 'valeur');
+    fireEvent.changeText(getByTestId('field-firstName'), 'value');
+    fireEvent.changeText(getByTestId('field-lastName'), 'value');
+    fireEvent.changeText(getByTestId('field-email'), 'user@example.com');
+    fireEvent.changeText(getByTestId('field-password'), 'password1');
+    fireEvent.changeText(getByTestId('field-age'), '21');
+    fireEvent(getByTestId('field-acceptTerms'), 'valueChange', true);
+    fireEvent.press(getByTestId('field-country-BJ'));
+    fireEvent.changeText(getByTestId('field-bio'), 'value');
     fireEvent.press(getByTestId('submit'));
     await waitFor(() => expect(onSuccess).toHaveBeenCalled());
   });

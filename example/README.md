@@ -1,12 +1,12 @@
 # example/
 
-App Expo Router démontrant `rn-schema-ui`.
+Expo Router app demonstrating `rn-schema-ui`.
 
 ```bash
-# depuis la racine du monorepo
+# from monorepo root
 npm run build
 cd example
-npm run generate   # régénère app/(auth)/register
+npm run generate   # regenerates app/(auth)/register
 npm test
 npx expo export --platform web
 npx expo start
