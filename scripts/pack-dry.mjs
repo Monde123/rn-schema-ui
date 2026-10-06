@@ -12,7 +12,8 @@ function pack(pkgDir) {
   // npm may print warnings before JSON array
   const start = out.indexOf('[');
   const end = out.lastIndexOf(']');
-  if (start < 0 || end < 0) throw new Error(`No JSON from npm pack in ${pkgDir}:\n${out.slice(0, 500)}`);
+  if (start < 0 || end < 0)
+    throw new Error(`No JSON from npm pack in ${pkgDir}:\n${out.slice(0, 500)}`);
   const data = JSON.parse(out.slice(start, end + 1));
   const info = Array.isArray(data) ? data[0] : data;
   return {
