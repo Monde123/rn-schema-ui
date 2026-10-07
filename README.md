@@ -1,130 +1,124 @@
 # rn-schema-ui
 
-> **Schema in → typed React Native screens, validated forms, and tests out.**
+**A CLI that turns a Zod (or JSON Schema) object into a React Native form screen, validation wiring, UI states, and RNTL tests.**
 
-Codegen (not another Formik-like runtime): Zod or JSON Schema → typed screen, validation wiring, loading/error/empty/success states, and React Native Testing Library tests.
+Repo: [github.com/Monde123/rn-schema-ui](https://github.com/Monde123/rn-schema-ui)
 
-**Repository:** [github.com/Monde123/rn-schema-ui](https://github.com/Monde123/rn-schema-ui)
+## The problem
 
-## Install
+In Expo / React Native you still hand-build every signup, settings, or profile form: `TextInput` + `value`/`onChangeText`, keyboard types, `secureTextEntry`, labels, a11y props, Zod/`safeParse` errors, loading/error/empty UI, and a Testing Library file. That boilerplate repeats for every screen.
+
+**rn-schema-ui is codegen, not another form library.** You keep Zod as the source of truth; the tool writes the screen and tests. A small optional runtime (`useForm` + `zod.safeParse`) powers the generated code—no Formik/RHF required.
+
+## What you get
 
 ```bash
-# After npm publish:
-npx rn-schema-ui generate ./schemas/user.ts --out ./app/register
-
-# Local monorepo (today):
-cd rn-formkit && npm install && npm run build
-node packages/cli/bin/rn-schema-ui.js --help
+rn-schema-ui generate ./schemas/user.ts --out ./app/(auth)/register --name Register
 ```
 
-Optional runtime peer package: `@rn-schema-ui/runtime` (`react`, `react-native`, `zod`).
+Writes:
+
+| File                          | Contents                                                                                     |
+| ----------------------------- | -------------------------------------------------------------------------------------------- |
+| `index.tsx`                   | Screen: fields, submit, reset, loading/error/empty/success hooks via `@rn-schema-ui/runtime` |
+| `__tests__/Register.test.tsx` | RNTL tests: render, validation on empty submit, successful submit                            |
+| `schema.ts`                   | **Only if** the input was `.json` — Zod mirror of that JSON Schema                           |
+
+The screen imports your schema and exports e.g. `RegisterScreen` (name from `--name` / folder).
 
 ## Quickstart
 
 ```bash
-node packages/cli/bin/rn-schema-ui.js init
-node packages/cli/bin/rn-schema-ui.js generate ./schemas/example.ts \
-  --out ./app/example --name Example --adapter plain --router expo
+git clone https://github.com/Monde123/rn-schema-ui.git
+cd rn-schema-ui   # monorepo folder may still be named rn-formkit locally
+npm install && npm run build
 ```
 
-Real schema (`schemas/user.ts`):
+Minimal schema (`schemas/signup.ts`):
 
 ```ts
 import { z } from 'zod';
 
-export const userSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
+export const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  age: z.coerce.number().int().min(18),
   acceptTerms: z.boolean(),
-  country: z.enum(['BJ', 'FR', 'SN', 'CI']),
-  bio: z.string().max(280).optional(),
 });
 ```
 
-### Before / after
-
-**Before** — hand-wire every `TextInput`, error text, keyboard type, a11y props, and RNTL tests.
-
-**After**:
+Generate:
 
 ```bash
-node packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts \
-  --out ./example/app/\(auth\)/register --name Register
+node packages/cli/bin/rn-schema-ui.js generate ./schemas/signup.ts \
+  --out ./app/signup --name Signup --adapter plain --router expo
 ```
 
-→ `index.tsx` + `__tests__/Register.test.tsx` ready for Expo.
+Use in an Expo Router / RN app (after depending on `@rn-schema-ui/runtime` in the workspace):
 
-## How it works under the hood
+```tsx
+import { SignupScreen } from './app/signup';
 
-1. **Schema load** — For `.ts` Zod files, the CLI loads the module with **jiti** and picks a `*Schema` / Zod export. For `.json`, it reads JSON Schema and builds the same intermediate model (plus a small Zod mirror file when needed).
-2. **Field mapping** — Each Zod/JSON field becomes an IR entry: kind (`email`, `password`, `number`, `boolean`, `enum`, …), label/hint, keyboard/`secureTextEntry`, a11y props, optional/nullable unwrap. Nested objects are flattened one level (`profile.city`); unsupported shapes emit a warning and are skipped.
-3. **Template render** — Pure TypeScript template functions turn the IR into screen JSX, submit wiring, and an RNTL test file (`--adapter plain|paper`, `--router expo|rn`).
-4. **Emitted artifacts** — A screen component, default values, submit handler, and tests. No mandatory Formik/RHF in the output.
-5. **Thin runtime** — Generated screens call `@rn-schema-ui/runtime` `useForm`: controlled values, field errors, and **`zod.safeParse` on submit** (dotted keys are unflattened first). Presentational Loading/Error/Empty/Success helpers ship in the same package (~2–3 KB gzip).
-6. **Adapters** — `plain` is the default (core RN primitives). `paper` is a partial stub for later React Native Paper styling—same structure, not a full Paper dependency injection.
-
-## Multiplatform (iOS, Android, Web)
-
-rn-schema-ui targets **Expo** apps that run on **iOS**, **Android**, and **web** (`react-native-web`)—not mobile-only.
-
-| Target        | How                                                   |
-| ------------- | ----------------------------------------------------- |
-| iOS / Android | Expo Go or dev builds                                 |
-| Web           | `npx expo export --platform web` / `expo start --web` |
-
-Generated UI uses core React Native primitives (`View`, `Text`, `TextInput`, `Switch`, `Pressable`, `ScrollView`, `KeyboardAvoidingView`). Platform-specific behavior is gated with `Platform.OS` (e.g. keyboard avoiding on iOS). Avoid adding native-only modules in templates without a web fallback.
-
-**Testing matrix (v0.1):**
-
-| Check                       | iOS | Android | Web              |
-| --------------------------- | --- | ------- | ---------------- |
-| Generate + TypeScript       | ✓   | ✓       | ✓                |
-| Jest + RNTL (logic/UI tree) | ✓   | ✓       | ✓                |
-| Expo export / static web    | —   | —       | ✓ (CI)           |
-| Expo Go manual smoke        | ✓   | ✓       | optional browser |
-
-## Supported field types
-
-| Kind                | UI                       | Notes                                  |
-| ------------------- | ------------------------ | -------------------------------------- |
-| string              | TextInput                |                                        |
-| email               | TextInput                | `keyboardType=email-address`           |
-| password            | TextInput                | name `password` / `motDePasse` or meta |
-| number              | TextInput                | `numeric`                              |
-| boolean             | Switch                   |                                        |
-| enum                | Pressable chips          |                                        |
-| date                | TextInput                | hint YYYY-MM-DD                        |
-| optional / nullable | —                        | unwrap                                 |
-| object (1 level)    | section + `parent.child` | unflatten on submit                    |
-| array of primitives | list + Add               |                                        |
-
-## Adapters & router
-
-- `--adapter plain|paper` (paper partial)
-- `--router expo|rn`
-- `--watch` regenerates on schema save
-- `--dry-run`
-
-## Example app
-
-```bash
-cd example && npx expo start
-# device: docs/expo-go.md
-npx expo export --platform web
+export default function Page() {
+  return (
+    <SignupScreen
+      onSuccess={(values) => {
+        // typed-shaped object from zod.safeParse
+        console.log(values);
+      }}
+    />
+  );
+}
 ```
 
-![Register form (Expo web)](./docs/assets/demo.gif)
+Also: `init` (config + example schema), `--watch`, `--dry-run`, `--adapter plain|paper`, `--router expo|rn`.
 
-## Quality
+## Supported field types (from the mapper)
 
-```bash
-npm run lint && npm run typecheck && npm test && npm run size && npm run bench:generate
-```
+What `packages/cli` actually maps today:
 
-See [QUALITY.md](./QUALITY.md), [CHANGELOG.md](./CHANGELOG.md), [docs/](./docs/).
+| Zod / shape                                       | UI                            | Behavior                                      |
+| ------------------------------------------------- | ----------------------------- | --------------------------------------------- |
+| `z.string()`                                      | `TextInput`                   | default keyboard                              |
+| `z.string().email()`                              | `TextInput`                   | `keyboardType="email-address"`, no capitalize |
+| field name ~ `password` / `passwd` / `motDePasse` | `TextInput`                   | `secureTextEntry`                             |
+| `z.number()` / `z.coerce.number()` / bigint       | `TextInput`                   | `keyboardType="numeric"`                      |
+| `z.boolean()`                                     | `Switch`                      |                                               |
+| `z.enum` / string `nativeEnum` / string `literal` | chip `Pressable`s             |                                               |
+| `z.date()`                                        | `TextInput`                   | text hint `YYYY-MM-DD` (no native picker)     |
+| `.optional()` / `.nullable()` / `.default()`      | —                             | unwrapped; optional fields not required       |
+| nested `z.object` **one level**                   | section + keys `parent.child` | unflattened before `safeParse`                |
+| `z.array(z.string\|number\|boolean)`              | list + Add                    | object arrays **skipped** (warning)           |
+
+**Skipped with a warning:** unions, discriminated unions, tuples, records, maps, sets, deep nesting (&gt;1 object level), arrays of objects.
+
+JSON Schema (`.json`) supports the same practical subset (`string`/`email`/`integer`/`boolean`/`enum`/primitive arrays) and emits `schema.ts`.
+
+`--adapter paper` is **partial** (same structure, not wired to `react-native-paper`).
+
+## Multiplatform
+
+Generated screens use core RN APIs and are meant for **iOS, Android, and web** (Expo + `react-native-web`). `KeyboardAvoidingView` uses `Platform.OS === 'ios'`. Example app: `cd example && npx expo start` or `npx expo export --platform web`. See [docs/testing-matrix.md](./docs/testing-matrix.md).
+
+## Under the hood
+
+1. Load schema — Zod `.ts` via **jiti**; or parse JSON Schema.
+2. Build an IR of fields (kind, labels, a11y, keyboard flags).
+3. Render TypeScript templates → `index.tsx` + test file.
+4. At runtime, `useForm` from `@rn-schema-ui/runtime` holds values/errors and runs **`schema.safeParse` on submit**.
+
+## Packages
+
+| Package                 | Role                                                               | npm                                                                             |
+| ----------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `rn-schema-ui`          | CLI (`init`, `generate`)                                           | **Not published yet** — use this repo / `node packages/cli/bin/rn-schema-ui.js` |
+| `@rn-schema-ui/runtime` | `useForm`, `useField`, `FormProvider`, Loading/Error/Empty/Success | **Not published yet** — workspace package                                       |
+
+Peers for runtime: `react`, `react-native`, `zod`.
+
+## Docs
+
+- [docs/](./docs/) — architecture, schema dialect, adapters, Expo Go, testing matrix
+- [ARCHITECTURE.md](./ARCHITECTURE.md) · [API.md](./API.md) · [QUALITY.md](./QUALITY.md) · [CHANGELOG.md](./CHANGELOG.md)
 
 ## License
 
