@@ -8,10 +8,10 @@
     "web": "expo start --web",
     "export:web": "expo export --platform web",
     "test": "jest --config jest.config.cjs",
-    "generate": "node ../packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out ./app/(auth)/register --name Register"
+    "generate": "node ../packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out \"./app/(auth)/register\" --name Register"
   },
   "dependencies": {
-    "@rn-schema-ui/runtime": "0.1.0",
+    "rn-schema-ui-runtime": "0.1.0",
     "ajv": "^8.20.0",
     "expo": "~52.0.0",
     "expo-constants": "~17.0.8",

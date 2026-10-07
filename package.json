@@ -8,14 +8,14 @@
     "example"
   ],
   "scripts": {
-    "build": "npm run build -w @rn-schema-ui/templates && npm run build -w @rn-schema-ui/runtime && npm run build -w rn-schema-ui",
+    "build": "npm run build -w @rn-schema-ui/templates && npm run build -w rn-schema-ui-runtime && npm run build -w rn-schema-ui",
     "cli": "node packages/cli/bin/rn-schema-ui.js",
     "generate:user": "node packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out ./example/app/\\(auth\\)/register --name Register",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.cjs",
     "test:coverage": "npm test -- --coverage",
     "lint": "eslint packages --ext .ts,.tsx",
     "format": "prettier -w \"**/*.{ts,tsx,js,json,md}\"",
-    "size": "npm run size -w @rn-schema-ui/runtime",
+    "size": "npm run size -w rn-schema-ui-runtime",
     "bench:generate": "node scripts/bench-generate.mjs",
     "typecheck": "tsc -p packages/templates/tsconfig.json --noEmit && tsc -p packages/runtime/tsconfig.json --noEmit && tsc -p packages/cli/tsconfig.json --noEmit",
     "format:check": "prettier -c \"**/*.{ts,tsx,js,cjs,mjs,json,md,yml}\"",

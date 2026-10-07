@@ -11,7 +11,7 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 config.resolver.extraNodeModules = {
-  '@rn-schema-ui/runtime': path.resolve(workspaceRoot, 'packages/runtime/dist'),
+  'rn-schema-ui-runtime': path.resolve(workspaceRoot, 'packages/runtime/dist'),
 };
 // Prefer package exports
 config.resolver.unstable_enablePackageExports = true;

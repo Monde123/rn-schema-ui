@@ -38,7 +38,7 @@ No Handlebars runtime dependency in generated code.
 
 ## ADR-011 — No states file under Expo Router `app/`
 
-Import states from `@rn-schema-ui/runtime` only.
+Import states from `rn-schema-ui-runtime` only.
 
 ## ADR-012 — Runtime via `dist/` for Metro
 
@@ -55,3 +55,10 @@ Example Metro maps package to `packages/runtime/dist`.
 ## ADR-015 — GitHub hosting
 
 Originally pushed under `Rn_motion` (token could not create/rename). Repo **renamed** to `rn-schema-ui`.
+
+## ADR-016 — Runtime published as unscoped `rn-schema-ui-runtime`
+
+- **Question:** Under which npm name do we publish the runtime? The planned `@rn-schema-ui/runtime` requires an npm org/scope `rn-schema-ui`, which does not exist (and the publishing account is `mo-dev`).
+- **Choice:** Unscoped `rn-schema-ui-runtime` (verified free on the registry before publishing). Fallback would have been `@mo-dev/rn-schema-ui-runtime`.
+- **Reason:** Publishable immediately without creating an org; the name stays visibly tied to the CLI `rn-schema-ui`; no personal scope leaking into every generated import.
+- **Cost of change:** Moving to a scope later means a new package name: generated screens import the runtime by name, so users would need to re-generate (or find/replace one import) and swap the dependency. The old package would be deprecated with a pointer, not unpublished.

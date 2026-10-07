@@ -104,7 +104,7 @@ export type Example = z.infer<typeof exampleSchema>;
 
     console.log(`
 Next step:
-  node packages/cli/bin/rn-schema-ui.js generate ./schemas/example.ts --out ./app/example --name Example
+  npx rn-schema-ui generate ./schemas/example.ts --out ./app/example --name Example
 `);
     console.log('✔ init complete');
     return 0;

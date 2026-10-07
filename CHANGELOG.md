@@ -5,7 +5,7 @@
 ### Added
 
 - CLI `rn-schema-ui`: `init`, `generate` (Zod via jiti / JSON Schema), `--adapter`, `--router`, `--dry-run`, `--watch`
-- Runtime `@rn-schema-ui/runtime`: `useForm`, `useField`, `FormProvider`, screen states, a11y helpers, `unflatten`
+- Runtime `rn-schema-ui-runtime`: `useForm`, `useField`, `FormProvider`, screen states, a11y helpers, `unflatten`
 - TypeScript templates: plain screens (Paper partial), RNTL tests
 - Expo Router example with generated Register screen
 - Quality: Jest (golden + runtime), ESLint, Prettier, size-limit, cold/warm bench, CI

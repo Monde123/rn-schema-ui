@@ -38,8 +38,8 @@ Reload in Expo Go.
 
 ## Troubleshooting
 
-| Symptom                                | Action                                             |
-| -------------------------------------- | -------------------------------------------------- |
-| Cannot resolve `@rn-schema-ui/runtime` | `npm run build` at repo root; check Metro → `dist` |
-| QR unreachable                         | `--tunnel` or same VLAN                            |
-| Stale Metro                            | `npx expo start -c`                                |
+| Symptom                               | Action                                             |
+| ------------------------------------- | -------------------------------------------------- |
+| Cannot resolve `rn-schema-ui-runtime` | `npm run build` at repo root; check Metro → `dist` |
+| QR unreachable                        | `--tunnel` or same VLAN                            |
+| Stale Metro                           | `npx expo start -c`                                |

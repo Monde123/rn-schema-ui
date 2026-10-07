@@ -18,11 +18,11 @@ rn-schema-ui generate ./schemas/user.ts --out ./app/(auth)/register --name Regis
 
 Writes:
 
-| File                          | Contents                                                                                     |
-| ----------------------------- | -------------------------------------------------------------------------------------------- |
-| `index.tsx`                   | Screen: fields, submit, reset, loading/error/empty/success hooks via `@rn-schema-ui/runtime` |
-| `__tests__/Register.test.tsx` | RNTL tests: render, validation on empty submit, successful submit                            |
-| `schema.ts`                   | **Only if** the input was `.json` — Zod mirror of that JSON Schema                           |
+| File                          | Contents                                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------------------------- |
+| `index.tsx`                   | Screen: fields, submit, reset, loading/error/empty/success hooks via `rn-schema-ui-runtime` |
+| `__tests__/Register.test.tsx` | RNTL tests: render, validation on empty submit, successful submit                           |
+| `schema.ts`                   | **Only if** the input was `.json` — Zod mirror of that JSON Schema                          |
 
 The screen imports your schema and exports e.g. `RegisterScreen` (name from `--name` / folder).
 
@@ -53,7 +53,7 @@ node packages/cli/bin/rn-schema-ui.js generate ./schemas/signup.ts \
   --out ./app/signup --name Signup --adapter plain --router expo
 ```
 
-Use in an Expo Router / RN app (after depending on `@rn-schema-ui/runtime` in the workspace):
+Use in an Expo Router / RN app (after depending on `rn-schema-ui-runtime` in the workspace):
 
 ```tsx
 import { SignupScreen } from './app/signup';
@@ -104,14 +104,14 @@ Generated screens use core RN APIs and are meant for **iOS, Android, and web** (
 1. Load schema — Zod `.ts` via **jiti**; or parse JSON Schema.
 2. Build an IR of fields (kind, labels, a11y, keyboard flags).
 3. Render TypeScript templates → `index.tsx` + test file.
-4. At runtime, `useForm` from `@rn-schema-ui/runtime` holds values/errors and runs **`schema.safeParse` on submit**.
+4. At runtime, `useForm` from `rn-schema-ui-runtime` holds values/errors and runs **`schema.safeParse` on submit**.
 
 ## Packages
 
-| Package                 | Role                                                               | npm                                                                             |
-| ----------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| `rn-schema-ui`          | CLI (`init`, `generate`)                                           | **Not published yet** — use this repo / `node packages/cli/bin/rn-schema-ui.js` |
-| `@rn-schema-ui/runtime` | `useForm`, `useField`, `FormProvider`, Loading/Error/Empty/Success | **Not published yet** — workspace package                                       |
+| Package                | Role                                                               | npm                                                                             |
+| ---------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `rn-schema-ui`         | CLI (`init`, `generate`)                                           | **Not published yet** — use this repo / `node packages/cli/bin/rn-schema-ui.js` |
+| `rn-schema-ui-runtime` | `useForm`, `useField`, `FormProvider`, Loading/Error/Empty/Success | **Not published yet** — workspace package                                       |
 
 Peers for runtime: `react`, `react-native`, `zod`.
 

@@ -15,7 +15,7 @@ Zod (.ts via jiti) | JSON Schema (.json)
 | Package                   | Role                         |
 | ------------------------- | ---------------------------- |
 | `rn-schema-ui`            | CLI (+ `vendor/templates`)   |
-| `@rn-schema-ui/runtime`   | Thin form hook + states      |
+| `rn-schema-ui-runtime`    | Thin form hook + states      |
 | `@rn-schema-ui/templates` | IR → code (bundled into CLI) |
 
 Runtime: no mandatory React Hook Form. `safeParse` on submit; dotted keys unflattened first.

@@ -15,7 +15,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { EmptyState, ErrorState, LoadingState, SuccessState, useForm } from '@rn-schema-ui/runtime';
+import { EmptyState, ErrorState, LoadingState, SuccessState, useForm } from 'rn-schema-ui-runtime';
 import { userSchema } from '../../../schemas/user';
 
 export type RegisterProps = {

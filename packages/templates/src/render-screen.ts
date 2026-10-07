@@ -168,7 +168,7 @@ import {
   LoadingState,
   SuccessState,
   useForm,
-} from '@rn-schema-ui/runtime';
+} from 'rn-schema-ui-runtime';
 import { ${ir.exportName} } from '${ir.schemaImportPath}';
 
 export type ${opts.componentName}Props = {
@@ -342,6 +342,6 @@ export function renderStatesBarrel(): string {
   EmptyState,
   SuccessState,
   ScreenStates,
-} from '@rn-schema-ui/runtime';
+} from 'rn-schema-ui-runtime';
 `;
 }

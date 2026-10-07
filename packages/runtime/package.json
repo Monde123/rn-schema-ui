@@ -1,7 +1,7 @@
 {
-  "name": "@rn-schema-ui/runtime",
+  "name": "rn-schema-ui-runtime",
   "version": "0.1.0",
-  "description": "Thin rn-schema-ui runtime \u2014 useForm, useField, screen states (iOS, Android, web)",
+  "description": "Thin runtime for rn-schema-ui generated screens: useForm (zod.safeParse), useField, Loading/Error/Empty/Success states. iOS, Android, web.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -9,13 +9,14 @@
   "react-native": "./dist/index.js",
   "files": [
     "dist",
-    "src"
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.cjs --selectProjects runtime",
-    "size": "npm run build && node ./scripts/size.mjs && size-limit"
+    "size": "npm run build && node ./scripts/size.mjs && size-limit",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -54,5 +55,16 @@
   "bugs": {
     "url": "https://github.com/Monde123/rn-schema-ui/issues"
   },
-  "homepage": "https://github.com/Monde123/rn-schema-ui#readme"
+  "homepage": "https://github.com/Monde123/rn-schema-ui#readme",
+  "keywords": [
+    "react-native",
+    "expo",
+    "zod",
+    "forms",
+    "react-native-web",
+    "rn-schema-ui"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -5,6 +5,6 @@ module.exports = {
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@rn-schema-ui/.*)',
   ],
   moduleNameMapper: {
-    '^@rn-schema-ui/runtime$': '<rootDir>/../packages/runtime/dist/index.js',
+    '^rn-schema-ui-runtime$': '<rootDir>/../packages/runtime/dist/index.js',
   },
 };

@@ -11,7 +11,7 @@
 | Package                   | Role                                               |
 | ------------------------- | -------------------------------------------------- |
 | `rn-schema-ui` (CLI)      | `init` / `generate` (+ bundled `vendor/templates`) |
-| `@rn-schema-ui/runtime`   | `useForm`, `useField`, screen states, a11y helpers |
+| `rn-schema-ui-runtime`    | `useForm`, `useField`, screen states, a11y helpers |
 | `@rn-schema-ui/templates` | IR → code (bundled into CLI)                       |
 | `example/`                | Expo Router demo                                   |
 

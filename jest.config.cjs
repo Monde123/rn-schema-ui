@@ -23,7 +23,7 @@ module.exports = {
     '^react-native$': '<rootDir>/jest/react-native-mock.js',
     '^@rn-schema-ui/templates$': '<rootDir>/packages/templates/src/index.ts',
     '^.*/vendor/templates/index\\.js$': '<rootDir>/packages/templates/src/index.ts',
-    '^@rn-schema-ui/runtime$': '<rootDir>/packages/runtime/src/index.ts',
+    '^rn-schema-ui-runtime$': '<rootDir>/packages/runtime/src/index.ts',
   },
   collectCoverageFrom: [
     'packages/runtime/src/**/*.{ts,tsx}',

@@ -6,7 +6,7 @@
 | `paper` | **partial**         | Same structure; Paper comments only — no `react-native-paper` injection |
 
 ```bash
-node packages/cli/bin/rn-schema-ui.js generate ./schemas/user.ts --out ./app/register --adapter plain
+npx rn-schema-ui generate ./schemas/user.ts --out ./app/register --adapter plain
 ```
 
 | `--router` | Effect                              |
